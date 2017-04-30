@@ -1,0 +1,75 @@
+# Represents an item in the books collection
+type Book implements Node {
+  # The ID of an object
+  id: ID!
+
+  # The title of the book.
+  title: String
+
+  # The author of the book.
+  author: String
+
+  # The categories of the book.
+  categories(after: String, first: Int, before: String, last: Int): CategoryConnection
+}
+
+# Represents an category of the books
+type Category implements Node {
+  # The ID of an object
+  id: ID!
+
+  # Category label.
+  label: String
+}
+
+# A connection to a list of items.
+type CategoryConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CategoryEdge]
+}
+
+# An edge in a connection.
+type CategoryEdge {
+  # The item at the end of the edge
+  node: Category
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  book(id: String): Book
+  category(id: String): [Book]
+  books: [Book]
+  categories: [Category]
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
