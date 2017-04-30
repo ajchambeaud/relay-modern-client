@@ -1,4 +1,5 @@
 import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import promiseDelay from 'promise-delay';
 
 const relayServerUrl = 'http://localhost:4000/graphql';
 
@@ -22,10 +23,12 @@ function fetchQuery(operation, variables, cacheConfig, uploadables) {
       query: operation.text, // GraphQL text from input
       variables
     })
-  }).then(response => {
-    console.log(response);
-    return response.json();
-  });
+  })
+    .then(response => {
+      console.log(response);
+      return response.json();
+    })
+    .then(r => promiseDelay(3000, r));
 }
 
 // Crea la capa de red de Relay usando la funcion fetchQuery

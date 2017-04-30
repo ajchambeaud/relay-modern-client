@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
-import environment from './createRelayEnvironment';
+import environment from '../../createRelayEnvironment';
+import BooksList from './BooksList';
+import Spinner from 'react-spinkit';
 
 const query = graphql`
-query AppBooksListQuery {
-  books {
-    id
-    title
-    categories {
-      edges {
-        node {
-          id
-          label
+  query BooksPageQuery {
+    books {
+      id
+      title
+      categories {
+        edges {
+          node {
+            id
+            label
+          }
         }
       }
     }
   }
-}
 `;
 
-class App extends Component {
+class BooksPage extends Component {
   render() {
     return (
       <div className="App">
@@ -33,7 +35,7 @@ class App extends Component {
 
             if (props) return <BooksList {...props} />;
 
-            return <div>Loading</div>;
+            return <Spinner spinnerName="three-bounce" />;
           }}
         />
 
@@ -42,14 +44,4 @@ class App extends Component {
   }
 }
 
-const BooksList = ({ books }) => (
-  <ol>
-    {books.map(book => (
-      <li key={book.id}>
-        {book.title}
-      </li>
-    ))}
-  </ol>
-);
-
-export default App;
+export default BooksPage;
