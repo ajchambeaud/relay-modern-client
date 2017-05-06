@@ -9,8 +9,29 @@ type Book implements Node {
   # The author of the book.
   author: String
 
+  # The image of the book.
+  image: String
+
   # The categories of the book.
   categories(after: String, first: Int, before: String, last: Int): CategoryConnection
+}
+
+# A connection to a list of items.
+type BookConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [BookEdge]
+}
+
+# An edge in a connection.
+type BookEdge {
+  # The item at the end of the edge
+  node: Book
+
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 # Represents an category of the books
@@ -64,7 +85,7 @@ type PageInfo {
 type Query {
   book(id: String): Book
   category(id: String): [Book]
-  books: [Book]
+  books(categoryId: String, after: String, first: Int, before: String, last: Int): BookConnection
   categories: [Category]
 
   # Fetches an object given its ID
