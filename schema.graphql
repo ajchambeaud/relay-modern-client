@@ -34,6 +34,11 @@ type BookEdge {
   cursor: String!
 }
 
+type Catalog {
+  books(categoryId: String, after: String, first: Int, before: String, last: Int): BookConnection
+  categories: [Category]
+}
+
 # Represents an category of the books
 type Category implements Node {
   # The ID of an object
@@ -84,9 +89,7 @@ type PageInfo {
 
 type Query {
   book(id: String): Book
-  category(id: String): [Book]
-  books(categoryId: String, after: String, first: Int, before: String, last: Int): BookConnection
-  categories: [Category]
+  catalog: Catalog
 
   # Fetches an object given its ID
   node(

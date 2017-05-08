@@ -4,7 +4,6 @@ import { QueryRenderer, graphql } from 'react-relay';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import environment from '../../../createRelayEnvironment';
-import Spinner from 'react-spinkit';
 
 const CategoryMenu = ({ books, match }) => (
   <QueryRenderer
@@ -12,9 +11,11 @@ const CategoryMenu = ({ books, match }) => (
     query={
       graphql`
         query CategoryMenuQuery {
-          categories {
-            id
-            label
+          catalog{
+            categories {
+              id
+              label
+            }
           }
         }
       `
@@ -25,7 +26,7 @@ const CategoryMenu = ({ books, match }) => (
       if (props)
         return (
           <ListGroup>
-            {props.categories.map(category => (
+            {props.catalog.categories.map(category => (
               <LinkContainer to={`/category/${category.id}`} isActive={() => match && match.params.id === category.id}>
                 <ListGroupItem key={category.id} href="#">{category.label}</ListGroupItem>
               </LinkContainer>

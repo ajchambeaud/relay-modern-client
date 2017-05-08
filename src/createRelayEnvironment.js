@@ -11,7 +11,10 @@ const relayServerUrl = 'http://localhost:4000/graphql';
  * (query/mutation/etc) y retorna el resultado como una Promise.
  */
 function fetchQuery(operation, variables, cacheConfig, uploadables) {
-  console.log(operation);
+  console.log('tirando esta query');
+  console.log(operation.text);
+  console.log('con estas variables');
+  console.log(variables);
 
   return fetch(relayServerUrl, {
     method: 'POST',
