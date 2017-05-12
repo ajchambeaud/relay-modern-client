@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule CategoryMenuQuery.graphql
- * @generated SignedSource<<4cc2703cc23c585b103fcc2413412e79>>
- * @relayHash 543e985f2f8c9d77c5aab8ee584b2580
+ * @generated SignedSource<<d2e5f76004b514c7626e540bd3d82b6d>>
+ * @relayHash e7cd9940d75a639d965b70e2855bfa3e
  * @flow
  * @nogrep
  */
@@ -20,11 +20,9 @@ import type {ConcreteBatch} from 'relay-runtime';
 
 /*
 query CategoryMenuQuery {
-  catalog {
-    categories {
-      id
-      label
-    }
+  categories {
+    id
+    label
   }
 }
 */
@@ -40,33 +38,22 @@ const batch /*: ConcreteBatch*/ = {
         "kind": "LinkedField",
         "alias": null,
         "args": null,
-        "concreteType": "Catalog",
-        "name": "catalog",
-        "plural": false,
+        "concreteType": "Category",
+        "name": "categories",
+        "plural": true,
         "selections": [
           {
-            "kind": "LinkedField",
+            "kind": "ScalarField",
             "alias": null,
             "args": null,
-            "concreteType": "Category",
-            "name": "categories",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "label",
-                "storageKey": null
-              }
-            ],
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "label",
             "storageKey": null
           }
         ],
@@ -89,33 +76,22 @@ const batch /*: ConcreteBatch*/ = {
         "kind": "LinkedField",
         "alias": null,
         "args": null,
-        "concreteType": "Catalog",
-        "name": "catalog",
-        "plural": false,
+        "concreteType": "Category",
+        "name": "categories",
+        "plural": true,
         "selections": [
           {
-            "kind": "LinkedField",
+            "kind": "ScalarField",
             "alias": null,
             "args": null,
-            "concreteType": "Category",
-            "name": "categories",
-            "plural": true,
-            "selections": [
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "id",
-                "storageKey": null
-              },
-              {
-                "kind": "ScalarField",
-                "alias": null,
-                "args": null,
-                "name": "label",
-                "storageKey": null
-              }
-            ],
+            "name": "id",
+            "storageKey": null
+          },
+          {
+            "kind": "ScalarField",
+            "alias": null,
+            "args": null,
+            "name": "label",
             "storageKey": null
           }
         ],
@@ -123,7 +99,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query CategoryMenuQuery {\n  catalog {\n    categories {\n      id\n      label\n    }\n  }\n}\n"
+  "text": "query CategoryMenuQuery {\n  categories {\n    id\n    label\n  }\n}\n"
 };
 
 module.exports = batch;

@@ -1,10 +1,9 @@
 import React from 'react';
-
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import BooksPage from './BooksPage';
-import AdminPage from './AdminPage';
+import BooksPage from 'App/BooksPage';
+import AdminPage from 'App/AdminPage';
 
 const NavigationBar = () => (
   <Navbar fixedTop>
@@ -30,6 +29,7 @@ const App = () => (
 
       <Switch>
         <Route exact path="/" component={BooksPage} />
+        <Route path="/detail/:bookId" component={BooksPage} />
         <Route path="/category/:id" component={BooksPage} />
         <Route path="/admin" component={AdminPage} />
       </Switch>

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { createPaginationContainer, QueryRenderer, graphql } from 'react-relay';
-import environment from '../../../createRelayEnvironment';
-import { Row, Col } from 'react-bootstrap';
-import Spinner from 'react-spinkit';
+import environment from 'App/createRelayEnvironment';
+import { Row } from 'react-bootstrap';
+import LoadingSpinner from 'Common/LoadingSpinner';
+import ErrorAlert from 'Common/ErrorAlert';
 import ReactScrollPagination from 'react-scroll-pagination';
 import BooksListItem from './BooksListItem';
-import styles from './BooksList.css';
 
 class BooksList extends Component {
   constructor(props) {
@@ -17,13 +17,13 @@ class BooksList extends Component {
   }
 
   render() {
-    const { relay, catalog } = this.props;
+    const { relay, result } = this.props;
     const { loading, error } = this.state;
 
-    if (catalog)
+    if (result)
       return (
         <Row>
-          {catalog.books.edges.map((edge, key) => <BooksListItem key={key} book={edge.node} />)}
+          {result.books.edges.map((edge, key) => <BooksListItem key={key} book={edge.node} />)}
           {relay.hasMore() &&
             !loading &&
             <ReactScrollPagination
@@ -32,13 +32,8 @@ class BooksList extends Component {
               excludeHeight={50}
               triggerAt={300}
             />}
-          {loading &&
-            <Col md={12}>
-              <div className={styles.loadingContainer}>
-                <Spinner spinnerName="rotating-plane" />
-              </div>
-            </Col>}
-          {error && <div>error</div>}
+          {loading && <LoadingSpinner />}
+          {error && <ErrorAlert error={error} />}
         </Row>
       );
   }
@@ -61,46 +56,40 @@ class BooksList extends Component {
 // Not sure why I can not pass a variable here
 const BooksListContainer = createPaginationContainer(
   BooksList,
-  {
-    catalog: (
-      graphql`
-        fragment BooksList_catalog on Catalog {
-          books(
-            first: $count, 
-            categoryId: $categoryId, 
-            after: $cursor
-          ) @connection(key: "BooksList_books"){
-            edges {
-              node {
-                ...BooksListItem_book
-              }
-              cursor
-            }
-            pageInfo {
-              hasNextPage
-              hasPreviousPage
-              startCursor
-              endCursor
-            }
+  graphql`
+    fragment BooksListContainer_result on Query {
+      books(
+        first: $count, 
+        categoryId: $categoryId, 
+        after: $cursor
+      ) @connection(key: "BooksList_books"){
+        edges {
+          node {
+            ...BooksListItem_book
           }
+          cursor
         }
-      `
-    )
-  },
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+      }
+    }
+  `,
   {
     query: (
       graphql`
         query BooksListQuery($categoryId: String, $count: Int!, $cursor: String) {
-          catalog {
-            ...BooksList_catalog
-          }
+          ...BooksListContainer_result
         }
       `
     ),
     direction: 'forward',
 
     getConnectionFromProps(props) {
-      return props.catalog && props.catalog.books;
+      return props.result && props.result.books;
     },
 
     getFragmentVariables(prevVars, totalCount) {
@@ -126,9 +115,7 @@ const BooksListRenderer = ({ books, match }) => (
     query={
       graphql`
         query BooksListQuery($categoryId: String, $count: Int!, $cursor: String) {
-          catalog {
-            ...BooksList_catalog
-          }
+          ...BooksListContainer_result
         }
       `
     }
@@ -137,17 +124,11 @@ const BooksListRenderer = ({ books, match }) => (
       count: 12
     }}
     render={({ error, props }) => {
-      if (error) return <Row>{error.message}</Row>;
+      if (error) return <Row><ErrorAlert error={error} /></Row>;
 
-      if (props) return <BooksListContainer {...props} />;
+      if (props) return <BooksListContainer result={props} />;
 
-      return (
-        <Row>
-          <div className={styles.loadingContainer}>
-            <Spinner spinnerName="rotating-plane" />
-          </div>
-        </Row>
-      );
+      return <Row><LoadingSpinner /></Row>;
     }}
   />
 );

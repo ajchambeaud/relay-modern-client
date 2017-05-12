@@ -2,6 +2,8 @@ import React from 'react';
 import CategoryMenu from './CategoryMenu';
 import BooksList from './BooksList';
 import { Grid, Row, Col } from 'react-bootstrap';
+import BookDetail from './BookDetail';
+import { Route, Switch } from 'react-router-dom';
 
 const BooksPage = props => (
   <Grid>
@@ -10,7 +12,10 @@ const BooksPage = props => (
         <CategoryMenu {...props} />
       </Col>
       <Col xs={12} md={8}>
-        <BooksList {...props} />
+        <Switch>
+          <Route path={`/detail/:bookId`} render={() => <BookDetail {...props} />} />
+          <Route exact path={props.match.url} render={() => <BooksList {...props} />} />
+        </Switch>
       </Col>
     </Row>
   </Grid>

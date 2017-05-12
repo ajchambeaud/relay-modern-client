@@ -3,8 +3,8 @@
  *   relay-compiler
  *
  * @providesModule BooksListQuery.graphql
- * @generated SignedSource<<66ad5cec0f22d7acdb9744069dcacea0>>
- * @relayHash 04d991986e22f3e6c199524d421cee4c
+ * @generated SignedSource<<f7b989beee49d3bafea6610870a1569b>>
+ * @relayHash 126c43ca238fa743efdd5dbb9e14f19d
  * @flow
  * @nogrep
  */
@@ -24,12 +24,10 @@ query BooksListQuery(
   $count: Int!
   $cursor: String
 ) {
-  catalog {
-    ...BooksList_catalog
-  }
+  ...BooksListContainer_result
 }
 
-fragment BooksList_catalog on Catalog {
+fragment BooksListContainer_result on Query {
   books(first: $count, categoryId: $categoryId, after: $cursor) {
     edges {
       node {
@@ -83,20 +81,9 @@ const batch /*: ConcreteBatch*/ = {
     "name": "BooksListQuery",
     "selections": [
       {
-        "kind": "LinkedField",
-        "alias": null,
-        "args": null,
-        "concreteType": "Catalog",
-        "name": "catalog",
-        "plural": false,
-        "selections": [
-          {
-            "kind": "FragmentSpread",
-            "name": "BooksList_catalog",
-            "args": null
-          }
-        ],
-        "storageKey": null
+        "kind": "FragmentSpread",
+        "name": "BooksListContainer_result",
+        "args": null
       }
     ],
     "type": "Query"
@@ -133,180 +120,169 @@ const batch /*: ConcreteBatch*/ = {
       {
         "kind": "LinkedField",
         "alias": null,
-        "args": null,
-        "concreteType": "Catalog",
-        "name": "catalog",
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "after",
+            "variableName": "cursor",
+            "type": "String"
+          },
+          {
+            "kind": "Variable",
+            "name": "categoryId",
+            "variableName": "categoryId",
+            "type": "String"
+          },
+          {
+            "kind": "Variable",
+            "name": "first",
+            "variableName": "count",
+            "type": "Int"
+          }
+        ],
+        "concreteType": "BookConnection",
+        "name": "books",
         "plural": false,
         "selections": [
           {
             "kind": "LinkedField",
             "alias": null,
-            "args": [
-              {
-                "kind": "Variable",
-                "name": "after",
-                "variableName": "cursor",
-                "type": "String"
-              },
-              {
-                "kind": "Variable",
-                "name": "categoryId",
-                "variableName": "categoryId",
-                "type": "String"
-              },
-              {
-                "kind": "Variable",
-                "name": "first",
-                "variableName": "count",
-                "type": "Int"
-              }
-            ],
-            "concreteType": "BookConnection",
-            "name": "books",
-            "plural": false,
+            "args": null,
+            "concreteType": "BookEdge",
+            "name": "edges",
+            "plural": true,
             "selections": [
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "BookEdge",
-                "name": "edges",
-                "plural": true,
-                "selections": [
-                  {
-                    "kind": "LinkedField",
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "Book",
-                    "name": "node",
-                    "plural": false,
-                    "selections": [
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "id",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "title",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "author",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "image",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "__typename",
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  },
-                  {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "args": null,
-                    "name": "cursor",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              },
-              {
-                "kind": "LinkedField",
-                "alias": null,
-                "args": null,
-                "concreteType": "PageInfo",
-                "name": "pageInfo",
+                "concreteType": "Book",
+                "name": "node",
                 "plural": false,
                 "selections": [
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "hasNextPage",
+                    "name": "id",
                     "storageKey": null
                   },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "hasPreviousPage",
+                    "name": "title",
                     "storageKey": null
                   },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "startCursor",
+                    "name": "author",
                     "storageKey": null
                   },
                   {
                     "kind": "ScalarField",
                     "alias": null,
                     "args": null,
-                    "name": "endCursor",
+                    "name": "image",
+                    "storageKey": null
+                  },
+                  {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "args": null,
+                    "name": "__typename",
                     "storageKey": null
                   }
                 ],
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "cursor",
                 "storageKey": null
               }
             ],
             "storageKey": null
           },
           {
-            "kind": "LinkedHandle",
+            "kind": "LinkedField",
             "alias": null,
-            "args": [
+            "args": null,
+            "concreteType": "PageInfo",
+            "name": "pageInfo",
+            "plural": false,
+            "selections": [
               {
-                "kind": "Variable",
-                "name": "after",
-                "variableName": "cursor",
-                "type": "String"
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "hasNextPage",
+                "storageKey": null
               },
               {
-                "kind": "Variable",
-                "name": "categoryId",
-                "variableName": "categoryId",
-                "type": "String"
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "hasPreviousPage",
+                "storageKey": null
               },
               {
-                "kind": "Variable",
-                "name": "first",
-                "variableName": "count",
-                "type": "Int"
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "startCursor",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "endCursor",
+                "storageKey": null
               }
             ],
-            "handle": "connection",
-            "name": "books",
-            "key": "BooksList_books",
-            "filters": [
-              "categoryId"
-            ]
+            "storageKey": null
           }
         ],
         "storageKey": null
+      },
+      {
+        "kind": "LinkedHandle",
+        "alias": null,
+        "args": [
+          {
+            "kind": "Variable",
+            "name": "after",
+            "variableName": "cursor",
+            "type": "String"
+          },
+          {
+            "kind": "Variable",
+            "name": "categoryId",
+            "variableName": "categoryId",
+            "type": "String"
+          },
+          {
+            "kind": "Variable",
+            "name": "first",
+            "variableName": "count",
+            "type": "Int"
+          }
+        ],
+        "handle": "connection",
+        "name": "books",
+        "key": "BooksList_books",
+        "filters": [
+          "categoryId"
+        ]
       }
     ]
   },
-  "text": "query BooksListQuery(\n  $categoryId: String\n  $count: Int!\n  $cursor: String\n) {\n  catalog {\n    ...BooksList_catalog\n  }\n}\n\nfragment BooksList_catalog on Catalog {\n  books(first: $count, categoryId: $categoryId, after: $cursor) {\n    edges {\n      node {\n        ...BooksListItem_book\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment BooksListItem_book on Book {\n  id\n  title\n  author\n  image\n}\n"
+  "text": "query BooksListQuery(\n  $categoryId: String\n  $count: Int!\n  $cursor: String\n) {\n  ...BooksListContainer_result\n}\n\nfragment BooksListContainer_result on Query {\n  books(first: $count, categoryId: $categoryId, after: $cursor) {\n    edges {\n      node {\n        ...BooksListItem_book\n        id\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}\n\nfragment BooksListItem_book on Book {\n  id\n  title\n  author\n  image\n}\n"
 };
 
 module.exports = batch;
